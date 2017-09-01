@@ -1,0 +1,28 @@
+{
+	"plugin-data":
+	{
+		"name": "Cookie Consent + Detect AdBlock",
+		"description": "The most popular solution to the EU Cookie Law, as well as a detector with AdBlock script customization."
+	},
+	"enable-plugin-(config-save)": "Enable plugin (Config save)",
+	"this-website-uses-cookies-to-ensure-you-get-the-best-experience-on-our-website": "This website uses cookies to ensure you get the best experience on our website",
+	"dismiss": "Got it!",
+	"learnmore": "More info",
+	"choose-theme": "Choose theme",
+	"dark-bottom": "Dark Bottom",
+	"dark-floating": "Dark Floating",
+	"dark-top": "Dark Top",
+	"light-bottom": "Light Bottom",
+	"light-floating": "Light Floating",
+	"light-top": "Light Top",
+	"headline-text": "Headline text",
+	"accept-button-text": "Accept button text",
+	"read-more-button-text": "Read more button text",
+	"your-cookie-policy": "Your cookie policy",
+	"if-you-already-have-a-cookie-policy,-link-to-it-here.": "If you already have a cookie policy, link to it here.",
+	"adblock-config": "AdBlock config",
+	"adblock-message": "<h4>You seem to use Adblock, or other software designed to block ads.</h4> When you click on a banner ad, it's also thank the author of the site for the articles you read.<br />If you believe that any work deserves reward, so feel free to do something good with a little click. Thank you.",
+	"ad-blocker-detection-plugin": "Enable detection AdBlock",
+	"adblock_message": "Advert message",
+	"adblock_background_color": "Notice background color"	
+}

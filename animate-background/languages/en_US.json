@@ -1,0 +1,14 @@
+{
+	"plugin-data":
+	{
+		"name": "Animate Background",
+		"description": "Add a great background effect in your theme."
+	},
+	
+	"choose-animation": "Choose animation",	
+	"triangles,-squares-and-crosses": "Triangles, squares and crosses",	
+	"floating-dots": "Floating dots",
+	"multicolored-hexagons": "Multicolored Hexagons (dark background)",
+	"discrete-bubbles": "Discrete Bubbles",
+	"snowflake": "Snowflake"
+}

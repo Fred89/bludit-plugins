@@ -1,0 +1,28 @@
+{
+	"plugin-data":
+	{
+		"name": "Cookie Consent + détection AdBlock",
+		"description": "La solution la plus populaire pour le droit des Cookies en Europe, ainsi qu’un détecteur du script AdBlock avec personnalisation."
+	},
+	"enable-plugin-(config-save)": "Activer le plugin (Configuration sauvegardée)",
+	"this-website-uses-cookies-to-ensure-you-get-the-best-experience-on-our-website": "Ce site utilise des cookies, notamment pour les statistiques de visites. Le fait de continuer à naviguer implique votre accord tacite.",
+	"dismiss": "Fermer l’avertissement",
+	"learnmore": "En savoir plus",	
+	"choose-theme": "Choisissez un thème",
+	"dark-bottom": "Pied de page (sombre)",
+	"dark-floating": "Boite flottante (sombre)",
+	"dark-top": "Haut de page (sombre)",
+	"light-bottom": "Pied de page (clair)",
+	"light-floating": "Boite flottante (clair)",
+	"light-top": "Haut de page (clair)",
+	"headline-text": "Message à indiquer aux visiteurs",
+	"accept-button-text": "Texte du bouton d’acceptation",
+	"read-more-button-text": "Texte du bouton pour plus d’information",
+	"your-cookie-policy": "Votre politique sur les cookies",
+	"if-you-already-have-a-cookie-policy,-link-to-it-here.": "Si vous disposez déjà d’une politique sur les cookies, indiquez le lien ici.",
+	"adblock-config": "Configuration d’AdBlock",
+	"adblock-message": "<h4>Il semblerait que vous utilisez Adblock, ou un autre logiciel destiné à bloquer les publicités.</h4>Quand vous cliquez sur une bannière de pub, c’est aussi remercier l’auteur du site pour les articles que vous lisez.<br />Si vous pensez que tout travail mérite récompense, alors n’hésitez pas à faire un bon geste avec un petit clic. Merci.",	
+	"ad-blocker-detection-plugin": "Activer la détection de AdBlock",
+	"adblock_message": "Message d’avertissement",
+	"adblock_background_color": "Couleur du fond de la notification"	
+}

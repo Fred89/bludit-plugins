@@ -1,0 +1,9 @@
+{
+	"plugin-data":
+	{
+		"name": "Simditor",
+		"description": "Simple et rapide éditeur de texte enrichi."
+	},
+
+    "activate-markdown": "Activer la syntaxe markdown"
+}
