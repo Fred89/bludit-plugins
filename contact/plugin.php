@@ -6,9 +6,9 @@
  *  @subpackage Plugins
  *  @author Frédéric K.
  *  @copyright 2015-2016 Frédéric K.
- *	@version 1.1.2
+ *	@version 2.0
  *  @release 2015-08-10
- *  @update 2016-04-19
+ *  @update 2017-10-18
  *
  */
 class pluginContact extends Plugin {
@@ -27,23 +27,18 @@ class pluginContact extends Plugin {
 		global $Language, $pages, $pagesParents;
 			
 		// Liste des pages ou afficher le formulaire
-		$_selectPageList = array(''=>'---------------------');
-		foreach($pagesParents as $parentKey=>$pageList)
-		{
-			foreach($pageList as $Page)
-			{
-				if($parentKey!==NO_PARENT_CHAR) {
-					$parentTitle = $pages[$Page->parentKey()]->title().'->';
-				}
-				else {
-					$parentTitle = '';
-				}
-		
-				if($Page->published()) {
-					$_selectPageList[$Page->key()] = $Language->g('Page').': '.$parentTitle.$Page->title();
-				}
+		$publishedPages = buildAllpages(true);
+		$pageOptions = array(' '=>'-------------------');
+		foreach($publishedPages as $key=>$page) {
+			$parentKey = $page->parentKey();
+			if ($parentKey) {
+				$pageOptions[$key] = $pagesByParentByKey[PARENT][$parentKey]->title() .'->'. $page->title();
+			} else {
+				$pageOptions[$key] = $page->title();
 			}
-		}			
+		
+			ksort($pageOptions);
+		}		
 		
 		$html  = '<div>';
 		$html .= '<label for="jsemail">'.$Language->get('Email').'</label>';
@@ -55,12 +50,13 @@ class pluginContact extends Plugin {
 		
 		$html .= '<div class="uk-form-select" data-uk-form-select>
     <span></span>';		
-		$html .= '<label for="jspage">' .$Language->get('Select a page to add the contact form').'</label>';
+		$html .= '<label for="jspage">' .$Language->get('Select a content').'</label>';
 		$html .= '<select name="page" class="uk-form-width-medium">';
-        foreach($_selectPageList as $value=>$text) {
+        foreach($pageOptions as $value=>$text) {
                 $html .= '<option value="'.$value.'"'.( ($this->getDbField('page')===$value)?' selected="selected"':'').'>'.$text.'</option>';
         }
-		$html .= '</select>';	
+		$html .= '</select>';
+		$html .= '<span class="tip">'.$Language->get('The list is based only on published content').'</span>';	
 		$html .= '</div>';	
 			
 		return $html;
@@ -78,14 +74,13 @@ class pluginContact extends Plugin {
 		{
 			$pluginPath = $this->htmlPath();
 			/** 
-			 * ON INCLUT LA CSS PAR DÉFAUT DU PLUG-IN OU LA CSS PERSONNALISÉE STOCKER DANS NOTRE THÈME 
+			 * ON INCLUT LA CSS PAR DÉFAUT DU PLUG-IN OU LA CSS PERSONNALISÉE STOCKER DANS NOTRE THÈME SI ELLE EXISTE.
 			 */
-		    $css = PATH_THEME_CSS. 'contact.css';
+		    $css = THEME_DIR_CSS . 'contact.css';
 		    if(file_exists($css))
-			    $html .= Theme::css('contact.css', HTML_PATH_THEME_CSS, false);
-		    else 
-		    	$html .= Theme::css('contact.css', $pluginPath . 'layout' .DS, false);
-			    #$html .= '<link rel="stylesheet" href="'.$pluginPath.'layout/contact.css">'.PHP_EOL;	    				
+			    $html .= Theme::css('css/contact.css');
+		    else
+			    $html .= '<link rel="stylesheet" href="'.$pluginPath.'layout/contact.css">'.PHP_EOL;	    				
 		}
 		return $html;
 	}  
@@ -96,6 +91,7 @@ class pluginContact extends Plugin {
 	public function pageEnd()
 	{
 		global $Page, $Url, $Site, $Language, $Security;
+		$pluginPath = $this->htmlPath();
 		# On charge le script uniquement sur la page en paramètre
 		if( $Url->whereAmI()=='page' && $Page->slug()==$this->getDbField('page') )
 		{ 
@@ -120,11 +116,11 @@ class pluginContact extends Plugin {
 		            $site_email   = $this->getDbField('email');
 		            
 		            # Object du mail
-		            $subject        = $Language->get('New contact from ').$site_title;
+		            $subject        = $Language->get('New contact from'). ' ' .$site_title;
 		            # Contenu du mail.
-		            $email_content  = $Language->get('Name:').$name."\r\n";
-		            $email_content .= $Language->get('Email:').$email."\r\n";
-		            $email_content .= $Language->get('Message:')."\r\n".$message."\r\n";
+		            $email_content  = $Language->get('Name'). ' ' .$name."\r\n";
+		            $email_content .= $Language->get('Email'). ' ' .$email."\r\n";
+		            $email_content .= $Language->get('Message')."\r\n".$message."\r\n";
 		            
 		            # Entêtes du mail
 		            $email_headers  = "From: ".$name." <".$email.">\r\n";
@@ -160,19 +156,19 @@ class pluginContact extends Plugin {
 		                }
 		            }
 		        # On retourne les erreurs    
-		        if($error) echo '<div class="alert fade error">'.$error.'</div>'."\r\n";
-		        elseif($success) echo '<div class="alert fade success">'.$success.'</div>'."\r\n";
+		        if($error) echo '<div class="alert alert-danger">' .$error. '</div>'."\r\n";
+		        elseif($success) echo '<div class="alert alert-success">' .$success. '</div>'."\r\n";
 		    }	
 						    							    
 			/** 
-			 * VERSION 0.3
-			 * ON INCLUT LE TEMPLATE PAR DÉFAUT DU PLUG-IN OU LE TEMPLATE PERSONNALISÉ STOCKER DANS NOTRE THÈME 
+			 * 
+			 * ON INCLUT LE TEMPLATE PAR DÉFAUT DU PLUG-IN OU LE TEMPLATE PERSONNALISÉ STOCKER DANS NOTRE THÈME S'IL EXISTE.
 			 */ 
-		    $template = PATH_THEME_PHP. 'contact.php';
+		    $template = THEME_DIR_PHP . 'contact.php';
 		    if(file_exists($template))
 			    include($template);
 		    else 
-			    include(dirname(__FILE__) . DS . 'layout' . DS . 'contact.php');	    			
+			    include(__DIR__ . DS . 'layout' . DS . 'contact.php');	    			
 		    
 		}
 	}   
