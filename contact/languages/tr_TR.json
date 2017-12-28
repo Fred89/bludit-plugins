@@ -1,0 +1,23 @@
+{
+	"plugin-data":
+	{
+		"name": "İletişim",
+		"description": "Özel bir şablon kullanma olanağı ile Bludit'e bir iletişim formu ekleyin."
+	},
+	"contact": "İletişim",
+	"select-a-content": "Bir sayfa seçin",
+	"static-pages" : "Statik sayfalar",
+	"the-list-is-based-only-on-published-content" : "Liste yalnızca yayınlanmış içeriğe dayanmaktadır. <br /> İletişim formu bunun altına yerleştirilecektir.",
+	"new-contact-from": "Yeni iletişim formu",
+	"name": "Ad:",
+	"email": "Email:",
+	"message": "Mesaj:",
+	"send": "Gönder",
+	"reset": "Sıfırla",
+	"please-enter-your-name": "Lütfen adınızı giriniz",
+	"please-enter-a-valid-email-address": "Lütfen onaylanmış bir mail adresi girin",
+	"please-enter-the-content-of-your-message": "Lütfen mesajınızı girin",
+	"oh-my-god-a-bot!": "Bir bot görüyorum!",
+	"thank-you-for-having-contacted-me.-i-will-reply-you-as-soon-as-possible.": "Benimle iletişime geçtiğin için teşekkür ederim. Size en kısa zamanda cevap vereceğim.",
+	"oops!-an-error-occurred-while-sending-your-message,-thank-you-to-try-again-later.": "Oops! Mesajınızı gönderirken bir hata oluştu, daha sonra tekrar deneyin lütfen, teşekkürler."		
+}
