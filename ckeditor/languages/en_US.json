@@ -2,7 +2,7 @@
 	"plugin-data":
 	{
 		"name": "CKEditor with RESPONSIVE Filemanager",
-		"description": "CKEditor is a WISIWYG editor. It is bundled with the RESPONSIVE Filemanager for uploading and managing files."
+		"description": "Add Ckeditor 4.8.0 + RESPONSIVE filemanager v.9.10.1 to Bludit"
 	},
     "select-toolbar": "Select package of CKEditor and toolbar",
     "basic": "Basic",
