@@ -5,12 +5,13 @@
  *  @package: Bludit
  *  @subpackage: Contact
  *  @author: Frédéric K.
- *  @copyright: 2015-2017 Frédéric K.
+ *  @copyright: 2015-2018 Frédéric K.
  *  @info: Duplicate this layout in your themes/YOUR_THEME/php/ 
  *	for a custom template.
+ *  @url $Site->url()
  */	
 ?>
-<form method="post" action="<?php echo $Site->url(). $Page->slug(); ?>" class="contact">
+<form method="post" action="<?php echo '.' . DS . $Page->slug(); ?>" class="contact">
 	<input type="hidden" name="tokenCSRF" value="<?php echo $Security->getTokenCSRF(); ?>">
 	
 	<div class="form-group">

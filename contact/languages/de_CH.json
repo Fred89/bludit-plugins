@@ -1,0 +1,26 @@
+{
+	"plugin-data":
+	{
+		"name": "Contact",
+		"description": "Kontaktformular für Bludit, das es erlaubt, auch eine eigene Vorlage zu verwenden."
+	},  
+	"contact": "Kontakt",
+	"select-a-content": "Wählen sie eine Seite für das Kontaktformular.",
+	"content-type": "Content type",
+	"html": "HTML format",
+	"text": "TEXT format",  
+	"static-pages" : "Statische Seiten",
+	"the-list-is-based-only-on-published-content" : "Es verden nur veröffentlichte Inhalte angezeigt<br />Das Kontaktformular wird unter dem Inhalt eingefügt.",
+	"new-contact-from": "Neues Kontaktformular",
+	"name": "Name",
+	"email": "E-Mail",
+	"message": "Mitteilung",
+	"send": "Senden",
+	"reset": "Zurücksetzen",
+	"please-enter-your-name": "Bitte geben sie ihren Namen ein.",
+	"please-enter-a-valid-email-address": "Geben sie bitte eine gültige E-Mail-Adresse ein.",
+	"please-enter-the-content-of-your-message": "Geben sie bitte einen Mitteilungstext ein.",
+	"oh-my-god-a-bot!": "Grundgütiger! Ein Bot!",
+	"thank-you-for-having-contacted-me.-i-will-reply-you-as-soon-as-possible.": "Vielen Dank für ihre Mitteilung. Ich werde sie  umgehend kontaktieren.",
+	"oops!-an-error-occurred-while-sending-your-message,-thank-you-to-try-again-later.": "Ein Fehler ist beim Versenden der Mitteilung aufgetreten. Bitte versuchen sie es später noch einmal."
+}

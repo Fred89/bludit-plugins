@@ -5,10 +5,10 @@
  *  @package Bludit
  *  @subpackage Plugins
  *  @author Frédéric K.
- *  @copyright 2015-2016 Frédéric K.
- *	@version 2.0
+ *  @copyright 2015-2018 Frédéric K.
+ *	@version 2.2.1b
  *  @release 2015-08-10
- *  @update 2017-10-18
+ *  @update 2018-03-10
  *
  */
 class pluginContact extends Plugin {
@@ -17,48 +17,60 @@ class pluginContact extends Plugin {
 	public function init()
 	{
 		$this->dbFields = array(
-			'email'=>'',	// <= Your contact email
-			'page'=>''		// <= Slug url of contact page
+			'email'	=> '',		// <= Your contact email
+			'page'	=> '',		// <= Slug url of contact page
+			'type'	=> 'text'	// <= True = HTML or False for text mail format
 			);
 	}
 	# ADMINISTRATION DU PLUG-IN.
-	public function form()
+	public function form() 
 	{
-		global $Language, $pages, $pagesParents;
-			
+		global $Language,$L,$dbPages;
+	
 		// Liste des pages ou afficher le formulaire
-		$publishedPages = buildAllpages(true);
-		$pageOptions = array(' '=>'-------------------');
-		foreach($publishedPages as $key=>$page) {
-			$parentKey = $page->parentKey();
-			if ($parentKey) {
-				$pageOptions[$key] = $pagesByParentByKey[PARENT][$parentKey]->title() .'->'. $page->title();
-			} else {
-				$pageOptions[$key] = $page->title();
-			}
-		
+		$pageOptions = array(' '=>'- ' .$L->g('Static pages'). ' -');
+		// On récupère les pages statiques	
+		$pages = $dbPages->getStaticDB();
+
+		// Dont on prend leur valeurs
+		$keys = array_keys($pages);
+		// Récupération de la valeur clé des pages				
+		foreach($pages as $pageKey) {
+			// Création de l'objet page
+			$page = buildPage($pageKey);
+			// Récupération du titre de la page
+			$pageOptions[$pageKey] = $page->title();
+			// On tri le tableau
 			ksort($pageOptions);
-		}		
+		}
 		
 		$html  = '<div>';
-		$html .= '<label for="jsemail">'.$Language->get('Email').'</label>';
+		$html .= '<label for="jsemail">' .$Language->get('Email'). '</label>';
 	    $html .= '<div class="uk-form-icon">';
 		$html .= '<i class="uk-icon-envelope"></i>';
-		$html .= '<input class="uk-form-width-large" name="email" id="jsemail" type="email" value="'.$this->getDbField('email').'">';
+		$html .= '<input class="uk-form-width-large" name="email" id="jsemail" type="email" value="' .$this->getDbField('email'). '">';
 		$html .= '</div>';
 		$html .= '</div>';
 		
 		$html .= '<div class="uk-form-select" data-uk-form-select>
     <span></span>';		
-		$html .= '<label for="jspage">' .$Language->get('Select a content').'</label>';
+		$html .= '<label for="jspage">' .$Language->get('Select a content'). '</label>';
 		$html .= '<select name="page" class="uk-form-width-medium">';
         foreach($pageOptions as $value=>$text) {
-                $html .= '<option value="'.$value.'"'.( ($this->getDbField('page')===$value)?' selected="selected"':'').'>'.$text.'</option>';
+                $html .= '<option value="' .$value. '"' .( ($this->getDbField('page')===$value)?' selected="selected"':''). '>' .$text. '</option>';
         }
 		$html .= '</select>';
-		$html .= '<span class="tip">'.$Language->get('The list is based only on published content').'</span>';	
+		$html .= '<span class="tip">' .$Language->get('The list is based only on published content'). '</span>';	
 		$html .= '</div>';	
-			
+
+		$html .= '<div>';
+		$html .= '<label>'.$Language->get('Content type').'</label>';
+		$html .= '<select name="type">';
+		$html .= '<option value="html" '.($this->getValue('type')==='html'?'selected':'').'>'.$Language->get('HTML').'</option>';
+		$html .= '<option value="text" '.($this->getValue('type')==='text'?'selected':'').'>'.$Language->get('TEXT').'</option>';
+		$html .= '</select>';
+		$html .= '</div>';
+					
 		return $html;
 	}
     /**
@@ -78,9 +90,9 @@ class pluginContact extends Plugin {
 			 */
 		    $css = THEME_DIR_CSS . 'contact.css';
 		    if(file_exists($css))
-			    $html .= Theme::css('css/contact.css');
+			    $html .= Theme::css('css' . DS . 'contact.css');
 		    else
-			    $html .= '<link rel="stylesheet" href="'.$pluginPath.'layout/contact.css">'.PHP_EOL;	    				
+			    $html .= '<link rel="stylesheet" href="' .$pluginPath. 'layout' . DS . 'contact.css">' .PHP_EOL;	    				
 		}
 		return $html;
 	}  
@@ -93,7 +105,7 @@ class pluginContact extends Plugin {
 		global $Page, $Url, $Site, $Language, $Security;
 		$pluginPath = $this->htmlPath();
 		# On charge le script uniquement sur la page en paramètre
-		if( $Url->whereAmI()=='page' && $Page->slug()==$this->getDbField('page') )
+		if( $Url->whereAmI()==='page' && $Page->slug()===$this->getDbField('page') )
 		{ 
 		   $error = false;
 		   $success = false;
@@ -103,7 +115,7 @@ class pluginContact extends Plugin {
 		   $email      	= isset($_POST['email']) ? $_POST['email'] : '';
 		   $message    	= isset($_POST['message']) ? $_POST['message'] : '';
 		   $interested 	= isset($_POST['interested']) ? $_POST['interested'] : '';			            		           
-		   $contentType = 'text'; // Type de mail (text/html)
+		   $contentType = $this->getDbField('type'); // Type de mail (text/html)
 		             
 		    if(isset($_POST['submit'])){	
 
@@ -125,22 +137,22 @@ class pluginContact extends Plugin {
 		            # Entêtes du mail
 		            $email_headers  = "From: ".$name." <".$email.">\r\n";
 		            $email_headers .= "Reply-To: ".$email."\r\n";
-		            $email_headers .= 'MIME-Version: 1.0'."\r\n";
+		            $email_headers .= 'MIME-Version: 1.0' ."\r\n";
 		            # Content-Type
-		            if($contentType == 'html')
-		               $email_headers .= 'Content-type: text/html; charset="'.$site_charset.'"'."\r\n";
+		            if($contentType==='html')
+		               $email_headers .= 'Content-type: text/html; charset="' .$site_charset. '"' ."\r\n";
 				    else
-					   $email_headers .= 'Content-type: text/plain; charset="'.$site_charset.'"'."\r\n";
+					   $email_headers .= 'Content-type: text/plain; charset="' .$site_charset. '"' ."\r\n";
 		
-				    $email_headers .= 'Content-transfer-encoding: 8bit'."\r\n";
-				    $email_headers .= 'Date: '.date("D, j M Y G:i:s O")."\r\n"; // Sat, 7 Jun 2001 12:35:58 -0700
+				    $email_headers .= 'Content-transfer-encoding: 8bit' ."\r\n";
+				    $email_headers .= 'Date: ' .date("D, j M Y G:i:s O")."\r\n"; // Sat, 7 Jun 2001 12:35:58 -0700
 				
 		            # On vérifie les champs qu'ils soient remplis
-			        if(trim($name)=='')
+			        if(trim($name)==='')
 				       $error = $Language->get('Please enter your name');			       	       	       
-			        elseif(trim($email)=='')
+			        elseif(trim($email)==='')
 				       $error = $Language->get('Please enter a valid email address');
-			        elseif(trim($message)=='')
+			        elseif(trim($message)==='')
 				       $error = $Language->get('Please enter the content of your message');
 				    elseif($interested)
 				       $error = $Language->get('Oh my god a Bot!');
@@ -148,16 +160,16 @@ class pluginContact extends Plugin {
 					    # Si tout ok, on envoi notre mail
 		                if(mail($site_email, $subject, $email_content, $email_headers)) { 
 		                  # Retourne le message de confirmation d’envoi           
-		                  $success = $Language->get('Thank you for having contacted me. I will reply you as soon as possible.');				                
+		                  $success = $Language->get('Thank you for having contacted me. I will reply you as soon as possible. ');				                
 		                  # Redirection sur le formulaire
 		                  # Redirect::page( '', $Page->slug() );	                  
 		                } else {
-		                  $error = $Language->get('Oops! An error occurred while sending your message, thank you to try again later.');
+		                  $error = $Language->get('Oops! An error occurred while sending your message, thank you to try again later. ');
 		                }
 		            }
 		        # On retourne les erreurs    
-		        if($error) echo '<div class="alert alert-danger">' .$error. '</div>'."\r\n";
-		        elseif($success) echo '<div class="alert alert-success">' .$success. '</div>'."\r\n";
+		        if($error) echo '<div class="alert alert-danger">' .$error. '</div>' ."\r\n";
+		        elseif($success) echo '<div class="alert alert-success">' .$success. '</div>' ."\r\n";
 		    }	
 						    							    
 			/** 
