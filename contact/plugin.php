@@ -6,9 +6,9 @@
  *  @subpackage Plugins
  *  @author Frédéric K.
  *  @copyright 2015-2018 Frédéric K.
- *	@version 2.2.1b
+ *	@version 2.5
  *  @release 2015-08-10
- *  @update 2018-03-10
+ *  @update 2018-04-24
  *
  */
 class pluginContact extends Plugin {
@@ -19,7 +19,14 @@ class pluginContact extends Plugin {
 		$this->dbFields = array(
 			'email'	=> '',		// <= Your contact email
 			'page'	=> '',		// <= Slug url of contact page
-			'type'	=> 'text'	// <= True = HTML or False for text mail format
+			'type'	=> 'text',	// <= True = HTML or False for text mail format
+			'smtphost' => '',
+			'smtpport' => '',
+			'username' => '',
+			'password' => '',
+			'fromaddress' => '',
+			'fromname' => '',
+			'subject' => ''
 			);
 	}
 	# ADMINISTRATION DU PLUG-IN.
@@ -43,35 +50,133 @@ class pluginContact extends Plugin {
 			// On tri le tableau
 			ksort($pageOptions);
 		}
-		
-		$html  = '<div>';
-		$html .= '<label for="jsemail">' .$Language->get('Email'). '</label>';
-	    $html .= '<div class="uk-form-icon">';
-		$html .= '<i class="uk-icon-envelope"></i>';
-		$html .= '<input class="uk-form-width-large" name="email" id="jsemail" type="email" value="' .$this->getDbField('email'). '">';
-		$html .= '</div>';
-		$html .= '</div>';
-		
-		$html .= '<div class="uk-form-select" data-uk-form-select>
-    <span></span>';		
-		$html .= '<label for="jspage">' .$Language->get('Select a content'). '</label>';
-		$html .= '<select name="page" class="uk-form-width-medium">';
-        foreach($pageOptions as $value=>$text) {
-                $html .= '<option value="' .$value. '"' .( ($this->getDbField('page')===$value)?' selected="selected"':''). '>' .$text. '</option>';
-        }
-		$html .= '</select>';
-		$html .= '<span class="tip">' .$Language->get('The list is based only on published content'). '</span>';	
-		$html .= '</div>';	
 
-		$html .= '<div>';
-		$html .= '<label>'.$Language->get('Content type').'</label>';
-		$html .= '<select name="type">';
-		$html .= '<option value="html" '.($this->getValue('type')==='html'?'selected':'').'>'.$Language->get('HTML').'</option>';
-		$html .= '<option value="text" '.($this->getValue('type')==='text'?'selected':'').'>'.$Language->get('TEXT').'</option>';
-		$html .= '</select>';
-		$html .= '</div>';
-					
-		return $html;
+		// Email
+		HTML::formInputText(array(
+			'name'			=> 'email',
+			'label'			=> $Language->get('Email'),
+			'type'			=> 'email',
+			'value'			=> $this->getDbField('email'),
+			'class'			=> 'uk-width-1-2 uk-form-large',
+			'placeholder'	=> '',
+			'tip'			=> '',
+			'disabled'		=> false
+		));	
+
+		// Content to display form
+		HTML::formSelect(array(
+			'name'			=> 'page',
+			'label'			=> $Language->get('Select a content'),
+			'class'			=> 'uk-width-1-3 uk-form-large',
+			'options'		=> array_merge($dbPages->getPublishedDB(),$dbPages->getStaticDB()),
+			'selected'		=> $this->getValue('page'),
+			'tip'			=> '',
+			'addEmptySpace'	=> false,
+			'disabled' 		=> false
+		));	
+
+		// Mail Content type
+		HTML::formSelect(array(
+			'name'			=> 'type',
+			'label'			=> $Language->get('Content type'),
+			'class'			=> 'uk-width-1-3 uk-form-large',
+			'options'		=> array( 'html'=>$Language->get('HTML'),'text'=>$Language->get('TEXT') ),
+			'selected'		=> $this->getValue('type'),
+			'tip'			=> '',
+			'addEmptySpace'	=> false,
+			'disabled' 		=> false
+		));
+
+		/**
+		 * SMTP Settings
+		 * Contribution by Dominik Sust
+		 * Git: https://github.com/HarleyDavidson86/bludit-plugins/commit/eb395c73ea4800a00f4ec5e9c9baabc5b9db19e8 
+		**/
+		HTML::title(array('title'=>$Language->get('smtp-options'), 'icon'=>'fa fa-server '));	
+
+		// Host
+		HTML::formInputText(array(
+			'name'			=> 'smtphost',
+			'label'			=> $Language->get('smtp-host'),
+			'type'			=> 'text',
+			'value'			=> $this->getDbField('smtphost'),
+			'class'			=> 'uk-width-1-2 uk-form-large',
+			'placeholder'	=> '',
+			'tip'			=> '',
+			'disabled'		=> false
+		));	
+		
+		// Port
+		HTML::formInputText(array(
+			'name'			=> 'smtpport',
+			'label'			=> $Language->get('smtp-port'),
+			'type'			=> 'text',
+			'value'			=> $this->getDbField('smtpport'),
+			'class'			=> 'uk-width-1-2 uk-form-large',
+			'placeholder'	=> '',
+			'tip'			=> '',
+			'disabled'		=> false
+		));	
+		
+		// Username
+		HTML::formInputText(array(
+			'name'			=> 'username',
+			'label'			=> $Language->get('smtp-username'),
+			'type'			=> 'text',
+			'value'			=> $this->getDbField('username'),
+			'class'			=> 'uk-width-1-2 uk-form-large',
+			'placeholder'	=> '',
+			'tip'			=> '',
+			'disabled'		=> false
+		));	
+		
+		// Password
+		HTML::formInputText(array(
+			'name'			=> 'password',
+			'label'			=> $Language->get('smtp-password'),
+			'type'			=> 'password',
+			'value'			=> $this->getDbField('password'),
+			'class'			=> 'uk-width-1-2 uk-form-large',
+			'placeholder'	=> '',
+			'tip'			=> '',
+			'disabled'		=> false
+		));	
+				
+		// Email
+		HTML::formInputText(array(
+			'name'			=> 'fromaddress',
+			'label'			=> $Language->get('smtp-from-address'),
+			'type'			=> 'email',
+			'value'			=> $this->getDbField('fromaddress'),
+			'class'			=> 'uk-width-1-2 uk-form-large',
+			'placeholder'	=> '',
+			'tip'			=> '',
+			'disabled'		=> false
+		));	
+
+		// Name
+		HTML::formInputText(array(
+			'name'			=> 'fromname',
+			'label'			=> $Language->get('smtp-from-name'),
+			'type'			=> 'text',
+			'value'			=> $this->getDbField('fromname'),
+			'class'			=> 'uk-width-1-2 uk-form-large',
+			'placeholder'	=> '',
+			'tip'			=> '',
+			'disabled'		=> false
+		));	
+		
+		// Subject
+		HTML::formInputText(array(
+			'name'			=> 'subject',
+			'label'			=> $Language->get('smtp-subject'),
+			'type'			=> 'text',
+			'value'			=> $this->getDbField('subject'),
+			'class'			=> 'uk-width-1-2 uk-form-large',
+			'placeholder'	=> '',
+			'tip'			=> '',
+			'disabled'		=> false
+		));	
 	}
     /**
      * AFFICHE LA FEUILLE DE STYLE ET LE JAVASCRIPT UNIQUEMENT SUR LA PAGE DEMANDÉE.
@@ -111,11 +216,18 @@ class pluginContact extends Plugin {
 		   $success = false;
 		   
 		   # $_POST
-		   $name       	= isset($_POST['name']) ? $_POST['name'] : '';
-		   $email      	= isset($_POST['email']) ? $_POST['email'] : '';
-		   $message    	= isset($_POST['message']) ? $_POST['message'] : '';
-		   $interested 	= isset($_POST['interested']) ? $_POST['interested'] : '';			            		           
-		   $contentType = $this->getDbField('type'); // Type de mail (text/html)
+		   $name       		= isset($_POST['name']) ? $_POST['name'] : '';
+		   $email      		= isset($_POST['email']) ? $_POST['email'] : '';
+		   $message    		= isset($_POST['message']) ? $_POST['message'] : '';
+		   $interested 		= isset($_POST['interested']) ? $_POST['interested'] : '';			            		           
+		   $contentType 	= $this->getDbField('type'); // Type de mail (text/html)
+		   $smtphost 		= $this->getDbField('smtphost'); 
+		   $smtpport 		= $this->getDbField('smtpport'); 
+		   $smtpusername 	= $this->getDbField('username'); 
+		   $smtppassword 	= $this->getDbField('password'); 
+		   $smtpfromaddress = $this->getDbField('fromaddress'); 
+		   $smtpfromname 	= $this->getDbField('fromname'); 
+		   $smtpsubject 	= $this->getDbField('subject');
 		             
 		    if(isset($_POST['submit'])){	
 
@@ -157,6 +269,7 @@ class pluginContact extends Plugin {
 				    elseif($interested)
 				       $error = $Language->get('Oh my god a Bot!');
 				    if(!$error) {
+						if (empty($smtphost)) {
 					    # Si tout ok, on envoi notre mail
 		                if(mail($site_email, $subject, $email_content, $email_headers)) { 
 		                  # Retourne le message de confirmation d’envoi           
@@ -166,6 +279,41 @@ class pluginContact extends Plugin {
 		                } else {
 		                  $error = $Language->get('Oops! An error occurred while sending your message, thank you to try again later. ');
 		                }
+						} else {
+							#Sending via SMTP
+							require __DIR__ . DS . 'phpmailer' . DS . 'PHPMailerAutoload.php';
+							try {
+							$mail = new PHPMailer;
+
+							$mail->isSMTP();
+							$mail->Host = $smtphost;
+							$mail->Port = $smtpport;
+							$mail->SMTPAuth = true;
+							$mail->Username = $smtpusername;
+							#Function is needed if Password contains special characters like &
+							$mail->Password = html_entity_decode($smtppassword);
+							$mail->isHTML(true);
+							$mail->setFrom($smtpfromaddress, $smtpfromname);
+							$mail->addAddress($site_email);
+							$mail->Subject  = $smtpsubject;
+							
+							$mailtext  = '<b>'.$Language->get('Name').': </b>'.$name.'<br>';
+							$mailtext .= '<b>'.$Language->get('Email').': </b>'.$email.'<br>';
+							$mailtext .= '<b>'.$Language->get('Message').': </b>'.$message.'<br>';
+
+							$mail->Body     = $mailtext;
+							if(!$mail->send()) {
+								$error = $Language->get('Oops! An error occurred while sending your message, thank you to try again later. ');
+							} else {
+								$success = $Language->get('Thank you for having contacted me. I will reply you as soon as possible. ');				                
+							}
+							} catch (phpmailerException $e) {
+							  echo $e->errorMessage(); //Pretty error messages from PHPMailer
+							} catch (Exception $e) {
+							  echo $e->getMessage(); //Boring error messages from anything else!
+							}
+							
+						}
 		            }
 		        # On retourne les erreurs    
 		        if($error) echo '<div class="alert alert-danger">' .$error. '</div>' ."\r\n";

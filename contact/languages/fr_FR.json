@@ -22,5 +22,14 @@
 	"please-enter-the-content-of-your-message": "Veuillez saisir le contenu de votre message",
 	"oh-my-god-a-bot!": "Oh mon dieu un Bot ! :)",
 	"thank-you-for-having-contacted-me.-i-will-reply-you-as-soon-as-possible.": "Merci de m’avoir contacté. Je vous répondrai le plus rapidement possible.",
-	"oops!-an-error-occurred-while-sending-your-message,-thank-you-to-try-again-later.": "Oops ! Une erreur est survenue pendant l’envoi de votre message, merci de réessayer ultérieurement."		
+	"oops!-an-error-occurred-while-sending-your-message,-thank-you-to-try-again-later.": "Oops ! Une erreur est survenue pendant l’envoi de votre message, merci de réessayer ultérieurement.",
+	
+	"smtp-options": "Veuillez remplir les valeurs suivantes si vous voulez envoyer des messages par un compte SMTP.",
+	"smtp-host": "Hôte SMTP :",
+	"smtp-port": "Port SMTP :",
+	"smtp-username": "Nom d’utilisateur SMTP :",
+	"smtp-password": "Mot de passe SMTP :",
+	"smtp-from-address": "Courriel de l’expéditeur :",
+	"smtp-from-name": "Nom de l’expéditeur :",
+	"smtp-subject": "Objet :"
 }

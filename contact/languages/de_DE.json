@@ -13,7 +13,7 @@
 	"the-list-is-based-only-on-published-content" : "Es verden nur veröffentlichte Inhalte angezeigt<br />Das Kontaktformular wird unter dem Inhalt eingefügt.",
 	"new-contact-from": "Neues Kontaktformular",
 	"name": "Name",
-	"email": "E-Mail",
+	"email": "E-Mail Empfänger",
 	"message": "Mitteilung",
 	"send": "Senden",
 	"reset": "Zurücksetzen",
@@ -22,5 +22,14 @@
 	"please-enter-the-content-of-your-message": "Geben sie bitte einen Mitteilungstext ein.",
 	"oh-my-god-a-bot!": "Grundgütiger! Ein Bot!",
 	"thank-you-for-having-contacted-me.-i-will-reply-you-as-soon-as-possible.": "Vielen Dank für ihre Mitteilung. Ich werde sie  umgehend kontaktieren.",
-	"oops!-an-error-occurred-while-sending-your-message,-thank-you-to-try-again-later.": "Ein Fehler ist beim Versenden der Mitteilung aufgetreten. Bitte versuchen sie es später noch einmal."
+	"oops!-an-error-occurred-while-sending-your-message,-thank-you-to-try-again-later.": "Ein Fehler ist beim Versenden der Mitteilung aufgetreten. Bitte versuchen sie es später noch einmal.",
+	
+	"smtp-options": "Füllen Sie folgende Felder nur aus, wenn Sie die Mails über ein SMTP-Mailkonto versenden möchten.",
+	"smtp-host": "SMTP Host",
+	"smtp-port": "SMTP Port",
+	"smtp-username": "SMTP Benutzername",
+	"smtp-password": "SMTP Passwort",
+	"smtp-from-address": "Absendeadresse",
+	"smtp-from-name": "Name des Absenders",
+	"smtp-subject": "Mailbetreff"
 }

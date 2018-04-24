@@ -22,5 +22,14 @@
 	"please-enter-the-content-of-your-message": "Lütfen mesajınızı girin",
 	"oh-my-god-a-bot!": "Bir bot görüyorum!",
 	"thank-you-for-having-contacted-me.-i-will-reply-you-as-soon-as-possible.": "Benimle iletişime geçtiğin için teşekkür ederim. Size en kısa zamanda cevap vereceğim.",
-	"oops!-an-error-occurred-while-sending-your-message,-thank-you-to-try-again-later.": "Oops! Mesajınızı gönderirken bir hata oluştu, daha sonra tekrar deneyin lütfen, teşekkürler."		
+	"oops!-an-error-occurred-while-sending-your-message,-thank-you-to-try-again-later.": "Oops! Mesajınızı gönderirken bir hata oluştu, daha sonra tekrar deneyin lütfen, teşekkürler.",
+	
+	"smtp-options": "Please fill in the following values if you want to send messages by a smtp account.",
+	"smtp-host": "SMTP Host",
+	"smtp-port": "SMTP Port",
+	"smtp-username": "SMTP Username",
+	"smtp-password": "SMTP Password",
+	"smtp-from-address": "Email Sender Address",
+	"smtp-from-name": "Name of Sender",
+	"smtp-subject": "Subject"
 }
