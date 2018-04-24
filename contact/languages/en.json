@@ -22,5 +22,14 @@
 	"please-enter-the-content-of-your-message": "Please enter the content of your message",
 	"oh-my-god-a-bot!": "Oh my god a Bot!",
 	"thank-you-for-having-contacted-me.-i-will-reply-you-as-soon-as-possible.": "Thank you for having contacted me. I will reply you as soon as possible.",
-	"oops!-an-error-occurred-while-sending-your-message,-thank-you-to-try-again-later.": "Oops! An error occurred while sending your message, thank you to try again later."		
+	"oops!-an-error-occurred-while-sending-your-message,-thank-you-to-try-again-later.": "Oops! An error occurred while sending your message, thank you to try again later.",
+	
+	"smtp-options": "Please fill in the following values if you want to send messages by a smtp account.",
+	"smtp-host": "SMTP Host",
+	"smtp-port": "SMTP Port",
+	"smtp-username": "SMTP Username",
+	"smtp-password": "SMTP Password",
+	"smtp-from-address": "Email Sender Address",
+	"smtp-from-name": "Name of Sender",
+	"smtp-subject": "Subject"
 }

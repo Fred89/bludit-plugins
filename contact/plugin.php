@@ -19,7 +19,14 @@ class pluginContact extends Plugin {
 		$this->dbFields = array(
 			'email'	=> '',		// <= Your contact email
 			'page'	=> '',		// <= Slug url of contact page
-			'type'	=> 'text'	// <= True = HTML or False for text mail format
+			'type'	=> 'text',	// <= True = HTML or False for text mail format
+			'smtphost' => '',
+			'smtpport' => '',
+			'username' => '',
+			'password' => '',
+			'fromaddress' => '',
+			'fromname' => '',
+			'subject' => ''
 			);
 	}
 	# ADMINISTRATION DU PLUG-IN.
@@ -70,7 +77,45 @@ class pluginContact extends Plugin {
 		$html .= '<option value="text" '.($this->getValue('type')==='text'?'selected':'').'>'.$Language->get('TEXT').'</option>';
 		$html .= '</select>';
 		$html .= '</div>';
-					
+
+		//SMTP Settings
+		
+		$html .= '<hr>';
+		$html .= '<p><strong>' .$Language->get('smtp-options'). '</strong></p>';
+		$html .= '<div>';
+		$html .= '<label for="jssmtphost">' .$Language->get('smtp-host'). '</label>';
+		$html .= '<input class="uk-form-width-large" name="smtphost" id="jssmtphost" type="text" value="' .$this->getDbField('smtphost'). '">';
+		$html .= '</div>';
+
+		$html .= '<div>';
+		$html .= '<label for="jssmtpport">' .$Language->get('smtp-port'). '</label>';
+		$html .= '<input class="uk-form-width-large" name="smtpport" id="jssmtpport" type="text" value="' .$this->getDbField('smtpport'). '">';
+		$html .= '</div>';
+		
+		$html .= '<div>';
+		$html .= '<label for="jsusername">' .$Language->get('smtp-username'). '</label>';
+		$html .= '<input class="uk-form-width-large" name="username" id="jsusername" type="text" value="' .$this->getDbField('username'). '">';
+		$html .= '</div>';
+		
+		$html .= '<div>';
+		$html .= '<label for="jspassword">' .$Language->get('smtp-password'). '</label>';
+		$html .= '<input class="uk-form-width-large" name="password" id="jspassword" type="password" value="' .$this->getDbField('password'). '">';
+		$html .= '</div>';
+		
+		$html .= '<div>';
+		$html .= '<label for="jsfromaddress">' .$Language->get('smtp-from-address'). '</label>';
+		$html .= '<input class="uk-form-width-large" name="fromaddress" id="jsfromaddress" type="text" value="' .$this->getDbField('fromaddress'). '">';
+		$html .= '</div>';
+		
+		$html .= '<div>';
+		$html .= '<label for="jsfromname">' .$Language->get('smtp-from-name'). '</label>';
+		$html .= '<input class="uk-form-width-large" name="fromname" id="jsfromname" type="text" value="' .$this->getDbField('fromname'). '">';
+		$html .= '</div>';
+		
+		$html .= '<div>';
+		$html .= '<label for="jssubject">' .$Language->get('smtp-subject'). '</label>';
+		$html .= '<input class="uk-form-width-large" name="subject" id="jssubject" type="text" value="' .$this->getDbField('subject'). '">';
+		$html .= '</div>';
 		return $html;
 	}
     /**
@@ -111,11 +156,18 @@ class pluginContact extends Plugin {
 		   $success = false;
 		   
 		   # $_POST
-		   $name       	= isset($_POST['name']) ? $_POST['name'] : '';
-		   $email      	= isset($_POST['email']) ? $_POST['email'] : '';
-		   $message    	= isset($_POST['message']) ? $_POST['message'] : '';
-		   $interested 	= isset($_POST['interested']) ? $_POST['interested'] : '';			            		           
-		   $contentType = $this->getDbField('type'); // Type de mail (text/html)
+		   $name       		= isset($_POST['name']) ? $_POST['name'] : '';
+		   $email      		= isset($_POST['email']) ? $_POST['email'] : '';
+		   $message    		= isset($_POST['message']) ? $_POST['message'] : '';
+		   $interested 		= isset($_POST['interested']) ? $_POST['interested'] : '';			            		           
+		   $contentType 	= $this->getDbField('type'); // Type de mail (text/html)
+		   $smtphost 		= $this->getDbField('smtphost'); 
+		   $smtpport 		= $this->getDbField('smtpport'); 
+		   $smtpusername 	= $this->getDbField('username'); 
+		   $smtppassword 	= $this->getDbField('password'); 
+		   $smtpfromaddress = $this->getDbField('fromaddress'); 
+		   $smtpfromname 	= $this->getDbField('fromname'); 
+		   $smtpsubject 	= $this->getDbField('subject');
 		             
 		    if(isset($_POST['submit'])){	
 
@@ -157,6 +209,7 @@ class pluginContact extends Plugin {
 				    elseif($interested)
 				       $error = $Language->get('Oh my god a Bot!');
 				    if(!$error) {
+						if (empty($smtphost)) {
 					    # Si tout ok, on envoi notre mail
 		                if(mail($site_email, $subject, $email_content, $email_headers)) { 
 		                  # Retourne le message de confirmation d’envoi           
@@ -166,6 +219,41 @@ class pluginContact extends Plugin {
 		                } else {
 		                  $error = $Language->get('Oops! An error occurred while sending your message, thank you to try again later. ');
 		                }
+						} else {
+							#Sending via SMTP
+							require __DIR__ . DS . 'phpmailer' . DS . 'PHPMailerAutoload.php';
+							try {
+							$mail = new PHPMailer;
+
+							$mail->isSMTP();
+							$mail->Host = $smtphost;
+							$mail->Port = $smtpport;
+							$mail->SMTPAuth = true;
+							$mail->Username = $smtpusername;
+							#Function is needed if Password contains special characters like &
+							$mail->Password = html_entity_decode($smtppassword);
+							$mail->isHTML(true);
+							$mail->setFrom($smtpfromaddress, $smtpfromname);
+							$mail->addAddress($site_email);
+							$mail->Subject  = $smtpsubject;
+							
+							$mailtext  = '<b>'.$Language->get('Name').': </b>'.$name.'<br>';
+							$mailtext .= '<b>'.$Language->get('Email').': </b>'.$email.'<br>';
+							$mailtext .= '<b>'.$Language->get('Message').': </b>'.$message.'<br>';
+
+							$mail->Body     = $mailtext;
+							if(!$mail->send()) {
+								$error = $Language->get('Oops! An error occurred while sending your message, thank you to try again later. ');
+							} else {
+								$success = $Language->get('Thank you for having contacted me. I will reply you as soon as possible. ');				                
+							}
+							} catch (phpmailerException $e) {
+							  echo $e->errorMessage(); //Pretty error messages from PHPMailer
+							} catch (Exception $e) {
+							  echo $e->getMessage(); //Boring error messages from anything else!
+							}
+							
+						}
 		            }
 		        # On retourne les erreurs    
 		        if($error) echo '<div class="alert alert-danger">' .$error. '</div>' ."\r\n";
