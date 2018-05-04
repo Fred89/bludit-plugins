@@ -8,7 +8,7 @@
  *  @copyright 2015-2018 Frédéric K.
  *	@version 2.5
  *  @release 2015-08-10
- *  @update 2018-04-24
+ *  @update 2018-05-02
  *
  */
 class pluginContact extends Plugin {
@@ -33,14 +33,13 @@ class pluginContact extends Plugin {
 	public function form() 
 	{
 		global $Language,$L,$dbPages;
-	
+		#$pageOptions = $dbPages->getStaticDB();
+		#$postOptions = $dbPages->getPublishedDB();		
+		#$options = array_merge( $postOptions, $pageOptions );
+		
 		// Liste des pages ou afficher le formulaire
-		$pageOptions = array(' '=>'- ' .$L->g('Static pages'). ' -');
 		// On récupère les pages statiques	
 		$pages = $dbPages->getStaticDB();
-
-		// Dont on prend leur valeurs
-		$keys = array_keys($pages);
 		// Récupération de la valeur clé des pages				
 		foreach($pages as $pageKey) {
 			// Création de l'objet page
@@ -49,8 +48,24 @@ class pluginContact extends Plugin {
 			$pageOptions[$pageKey] = $page->title();
 			// On tri le tableau
 			ksort($pageOptions);
+		}	
+			
+		// Liste des posts ou afficher le formulaire
+		// On récupère les posts publiés	
+		$posts = $dbPages->getPublishedDB();
+		// Récupération de la valeur clé des pages				
+		foreach($posts as $postKey) {
+			// Création de l'objet page
+			$post = buildPage($postKey);
+			// Récupération du titre de l'article
+			$postOptions[$postKey] = $post->title();
+			// On tri le tableau
+			ksort($postOptions);
 		}
-
+		
+		// On merge le tableau
+		$options = array_merge( $postOptions, $pageOptions );	
+		
 		// Email
 		HTML::formInputText(array(
 			'name'			=> 'email',
@@ -68,7 +83,7 @@ class pluginContact extends Plugin {
 			'name'			=> 'page',
 			'label'			=> $Language->get('Select a content'),
 			'class'			=> 'uk-width-1-3 uk-form-large',
-			'options'		=> array_merge($dbPages->getPublishedDB(),$dbPages->getStaticDB()),
+			'options'		=> $options,
 			'selected'		=> $this->getValue('page'),
 			'tip'			=> '',
 			'addEmptySpace'	=> false,
@@ -187,7 +202,9 @@ class pluginContact extends Plugin {
 		global $Page, $Url;
 		$html = '';
 		
-		if($Url->whereAmI()=='page' && $Page->slug()==$this->getDbField('page'))
+		if ( !$Url->notFound() &&
+		     ( $Url->whereAmI()=='page' && $Page->slug()===$this->getDbField('page') ) 
+		   )
 		{
 			$pluginPath = $this->htmlPath();
 			/** 
@@ -210,8 +227,10 @@ class pluginContact extends Plugin {
 		global $Page, $Url, $Site, $Language, $Security;
 		$pluginPath = $this->htmlPath();
 		# On charge le script uniquement sur la page en paramètre
-		if( $Url->whereAmI()==='page' && $Page->slug()===$this->getDbField('page') )
-		{ 
+		if ( !$Url->notFound() &&
+		     ( $Url->whereAmI()=='page' && $Page->slug()===$this->getDbField('page') ) 
+		   )
+		{
 		   $error = false;
 		   $success = false;
 		   
