@@ -6,9 +6,9 @@
  *  @subpackage Plugins
  *  @author Frédéric K.
  *  @copyright 2015-2018 Frédéric K.
- *	@version 2.5
+ *  @version 2.6
  *  @release 2015-08-10
- *  @update 2018-05-02
+ *  @update 2018-05-05
  *
  */
 class pluginContact extends Plugin {
@@ -292,11 +292,11 @@ class pluginContact extends Plugin {
 					    # Si tout ok, on envoi notre mail
 		                if(mail($site_email, $subject, $email_content, $email_headers)) { 
 		                  # Retourne le message de confirmation d’envoi           
-		                  $success = $Language->get('Thank you for having contacted me. I will reply you as soon as possible. ');				                
+		                  $success = $Language->get('Thank you for having contacted me. I will reply you as soon as possible.');				                
 		                  # Redirection sur le formulaire
 		                  # Redirect::page( '', $Page->slug() );	                  
 		                } else {
-		                  $error = $Language->get('Oops! An error occurred while sending your message, thank you to try again later. ');
+		                  $error = $Language->get('Oops! An error occurred while sending your message, thank you to try again later.');
 		                }
 						} else {
 							#Sending via SMTP
@@ -322,9 +322,9 @@ class pluginContact extends Plugin {
 
 							$mail->Body     = $mailtext;
 							if(!$mail->send()) {
-								$error = $Language->get('Oops! An error occurred while sending your message, thank you to try again later. ');
+								$error = $Language->get('Oops! An error occurred while sending your message, thank you to try again later.');
 							} else {
-								$success = $Language->get('Thank you for having contacted me. I will reply you as soon as possible. ');				                
+								$success = $Language->get('Thank you for having contacted me. I will reply you as soon as possible.');				                
 							}
 							} catch (phpmailerException $e) {
 							  echo $e->errorMessage(); //Pretty error messages from PHPMailer
