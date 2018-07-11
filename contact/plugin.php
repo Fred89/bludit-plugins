@@ -63,8 +63,19 @@ class pluginContact extends Plugin {
 			ksort($postOptions);
 		}
 		
-		// On merge le tableau
-		$options = array_merge( $postOptions, $pageOptions );	
+		// On merge le tableau (Fix by Edi Goetschel)
+		if ( empty($postOptions) == true && empty($pageOptions) == true ) {
+            $options = array();
+		}
+		elseif ( empty($postOptions) == true ) {
+		    $options = $pageOptions;;
+		}
+		elseif ( empty($pageOptions) == true ) {
+		    $options = $postOptions;
+		}
+		else {
+		    $options = array_merge( $postOptions, $pageOptions );
+		}	
 		
 		// Email
 		HTML::formInputText(array(
