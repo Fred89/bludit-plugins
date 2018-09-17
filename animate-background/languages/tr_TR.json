@@ -1,0 +1,14 @@
+{
+	"plugin-data":
+	{
+		"name": "Hareketli arka plan",
+		"description": "Temanızda harika bir arka plan efekti ekleyin."
+	},
+	
+	"choose-animation": "Animasyonu seç",	
+	"triangles,-squares-and-crosses": "Üçgenler, kareler ve artılar",	
+	"floating-dots": "Yüzen noktalar",
+	"multicolored-hexagons": "Çok renkli altıgenler (koyu arka plan)",
+	"discrete-bubbles": "Ayrık baloncuklar",
+	"snowflake": "Kar taneleri"
+}
