@@ -1,0 +1,23 @@
+{
+	"plugin-data":
+	{
+		"name": "Yedekleme",
+		"description": "Yedekleme, verilerinizi yedeklemenizi, indirmenizi, geri yüklemenizi ve sunucunuzdan silmenizi sağlar."
+	},
+	"download": "İndir",
+	"delete": "Sil",
+	"restore": "Geri yükle",
+	"archives": "Arşivler",
+	"file-size": "Dosya boyutu",
+	"date": "Tarih",
+	"actions": "Eylemler",
+	"make-a-backup": "Yedekleme yap",
+	"delete-this-backup?": "Bu yedek silinsin mi?",
+	"do-you-want-to-restore-this-backup?": "Bu yedeği geri yüklemek istiyor musunuz?",
+	"there-was-a-problem-writing-the-zip-archive.": "ZIP arşivini yazarken bir sorun oluştu",
+	"successfully-created-the-zip-archive!": "ZIP arşivi başarıyla oluşturuldu!",
+	"successfully-deleted-file!": "Dosya başarıyla silindi!",
+	"an-error-occurred-while-deleting-the-file.": "Dosya silinirken bir hata oluştu",
+	"archive-is-restored!": "Arşiv geri yüklendi!",
+	"there-was-a-problem-to-restore-the-zip-archive": "ZIP arşivini geri yüklemek için bir sorun oluştu"
+}
