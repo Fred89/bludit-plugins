@@ -1,0 +1,16 @@
+{
+	"plugin-data":
+	{
+		"name": "Kar taneleri",
+		"description": "Sitenize kar yağsın!"
+	},
+	"enable-plugin-(config-save)": "Eklentiyi etkinleştir (Ayarları kaydet)",
+	"snowmax": "Kar tanelerinin sayısı <em>(30 / 40 fazlası önerilmez)</em>",
+	"snowcolor": "Kar için renkler. İstediğiniz kadar çok renk ekleyin",
+	"snowtype": "Kar tanesi oluşturan yazı tipleri",
+	"snowletter": "Kar tanesini oluşturan harf <em>(*, ❄, ❅, ❆)</em>",
+	"sinkspeed": "Düşme hızı <em>(recommended values range from 0.3 to 2)</em>",
+	"snowmaxsize": "En büyük boyut", 
+	"snowminsize": "En küçük boyut",
+	"snowingzone": "Tam kar yağışı için 1, soldan kar yağışı için 2, orta kar yağışı için 3, sağdan kar yağışı için 4 ayarlayın"
+}
