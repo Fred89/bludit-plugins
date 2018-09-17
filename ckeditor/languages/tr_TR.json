@@ -1,0 +1,15 @@
+{
+	"plugin-data":
+	{
+		"name": "CKEditor ile DUYARLI Dosya yöneticisi",
+		"description": "Bludit'e Ckeditor 4.8.0 + DUYARLI dosya yöneticisi v.9.10.1 ekler."
+	},
+    "select-toolbar": "CKEditor ve araç çubuğunu seçin",
+    "basic": "Temel",
+    "standard": "Standart",
+    "advanced": "Gelişmiş",
+    "advanced-is-the-full-package-of-ckeditor": "« Gelişmiş » CKEditor'ün tam paketidir",
+    "select-skin": "Arayüz seç",
+    "filemanager-access-key": "Dosya yöneticisi erişim anahtarı",
+    "generate-key-(refresh-for-new):": "Anahtar oluştur (yenisi için yenileyin):"
+}
