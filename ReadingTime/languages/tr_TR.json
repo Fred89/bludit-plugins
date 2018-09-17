@@ -1,0 +1,17 @@
+{
+	"plugin-data":
+	{
+		"name": "Okuma zamanı",
+		"description": "Bu, içeriğiniz için okuma süresini tahmin eden bir Bludit eklentisidir."
+	},
+	"format-alt-enable": "Biçimi etkinleştir",
+	"enable-reading-time-on-pages": "Sayfalarda okuma süresini etkinleştir",
+	"enable-reading-time-on-posts": "Yazılarda okuma süresini etkinleştir",
+	"enable-reading-time-on-default-home-page": "Varsayılan ana sayfada okuma süresini etkinleştir",	
+	"minute": "Dakika",
+	"minutes": "Dakika",
+	"second": "Saniye",
+	"seconds": "Saniye",
+	"pages-where-do-not-display-the-reading-time": "Okuma zamanını göstermeyen sayfalar",
+	"write-the-pages-separated-by-commas": "Sayfaları virgülle ayırın."
+}
