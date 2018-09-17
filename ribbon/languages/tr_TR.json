@@ -1,0 +1,21 @@
+{
+	"plugin-data":
+	{
+		"name": "Şerit",
+		"description": "Sitenizin köşesine bir şerit veya tam olarak özelleştirilebilir bilgi çubuğu ekleyin."
+	},
+
+	"left" : "Sol",
+	"right" : "Sağ",
+	"display-type" : "Ekran tipi",
+	"ribbon" : "Şerit",
+	"stickybar" : "Yapışkan çubuk",
+	"if-stickybar-is-selected-you-can-insert-more-text." : "Yapışkan çubuk, seçilirse daha fazla metin ekleyebilirsiniz.",
+	"link" : "Bağlantı",
+	"horizontal-orientation" : "Yatay yönelim",
+	"vertical-orientation" : "Dikey yönelim",
+	"top" : "Üst",
+	"bottom" : "Alt",
+	"background-color" : "Arka plan rengi",
+	"link-color" : "Bağlantı rengi"
+}
