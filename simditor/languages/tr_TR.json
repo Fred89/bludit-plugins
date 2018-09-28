@@ -1,0 +1,9 @@
+{
+	"plugin-data":
+	{
+		"name": "Simditor",
+		"description": "Basit ve hızlı zengin metin editörü."
+	},
+
+    "activate-markdown": "İşaretlemeyi etkinleştir"
+}
