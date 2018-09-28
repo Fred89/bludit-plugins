@@ -1,0 +1,12 @@
+{
+	"plugin-data":
+	{
+		"name": "Kısa kod API",
+		"description": "Kısa Kod API'si, yazılarda ve sayfalarda kullanılmak üzere Bludit kısa kodları oluşturmak için basit bir işlev kümesidir."
+	},
+	"edit-shorcodes": "Kısa kodları düzenle",
+	"help": "Yardım",
+	"shortcodes-updated!": "Kısa kodlar güncellendi!",
+	"this-page-is-for-edit/add-shortcodes.-don't-forget-to-share-your-best-shorctcodes-with-bludit-community!": "Bu sayfa kısa kodları düzenlemek / eklemek içindir. En iyi kısa kodlarınızı Bludit topluluğuyla paylaşmayı unutmayın!",
+	"you-can-directly-edit-the-file-that-is-located:": "Bulunan dosyayı doğrudan düzenleyebilirsiniz:"
+}
