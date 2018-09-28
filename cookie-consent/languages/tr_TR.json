@@ -1,0 +1,28 @@
+{
+	"plugin-data":
+	{
+		"name": "Çerez Onayı + AdBlock'u Algıla",
+		"description": "AB Çerez Yasası için en popüler çözüm, yanı sıra AdBlock komut dosyası özelleştirmesi algılayıcı."
+	},
+	"enable-plugin-(config-save)": "Eklentiyi etkinleştir (Yapılandırmayı kaydet)",
+	"this-website-uses-cookies-to-ensure-you-get-the-best-experience-on-our-website": "Bu web sitesi, web sitemizde en iyi deneyimi yaşamanızı sağlamak için çerezleri kullanır",
+	"dismiss": "Anladım!",
+	"learnmore": "Daha fazla bilgi",
+	"choose-theme": "Tema seç",
+	"dark-bottom": "Koyu alt",
+	"dark-floating": "Koyu yüzer",
+	"dark-top": "Koyu üst",
+	"light-bottom": "Açık alt",
+	"light-floating": "Açık yüzer",
+	"light-top": "Açık üst",
+	"headline-text": "Başlık metni",
+	"accept-button-text": "Kabul et düğmesi metni",
+	"read-more-button-text": "Daha fazla oku düğmesi metni",
+	"your-cookie-policy": "Çerez politikanız",
+	"if-you-already-have-a-cookie-policy,-link-to-it-here.": "Zaten bir çerez politikanız varsa, buraya bağlantı verin.",
+	"adblock-config": "AdBlock yapılandırması",
+	"adblock-message": "<h4>Adblock veya reklamları engellemek için tasarlanmış başka bir yazılım kullanıyorsunuz.</h4> Bir banner reklamı tıkladığınız, okuduğunuz makaleler için sitenin yazarı teşekkür ediyor.<br />Herhangi bir işin ödülü hak ettiğine inanıyorsanız, küçük bir tıklama ile iyi bir şeyler yapmaktan çekinmeyin. Teşekkür ederim.",
+	"ad-blocker-detection-plugin": "AdBlock tespitini etkinleştir",
+	"adblock_message": "İlan mesajı",
+	"adblock_background_color": "Bildirim arka plan rengi"	
+}
