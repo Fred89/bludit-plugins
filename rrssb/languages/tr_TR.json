@@ -1,0 +1,34 @@
+{
+	"plugin-data":
+	{
+		"name": "Rrssb (Paylaşma Düğmeleri)",
+		"description": "Gülünç Duyarlı Sosyal Paylaşım Düğmeleri."
+	},
+
+	"to-customize-the-buttons-display-on-your-theme,-turn-off-the-display-in-the-sidebar-and-copy/paste-this-code-anywhere-you-want-in-your-theme."  : "Temanızda düğmelerin görüntülenmesini özelleştirmek için, kenar çubuğundaki ekranı kapatın ve bu kodu temanızda istediğiniz yere kopyalayın / yapıştırın.",
+	"enable-on-pages": "Sayfalarda etkinleştir",
+	"enable-on-posts": "Yazılarda etkinleştir",
+	"enable-on-default-home-page": "Varsayılan ana sayfada etkinleştir (kenar çubuğu)",	
+	"select-buttons-to-display" : "Gösterilecek düğmeleri seçin",
+	"your-github-repository-(leave-blank-to-disable)" : "Github deponuz (devre dışı bırakmak için boş bırakın)",
+	"yes" : "Evet",
+	"no" : "Hayır",
+	"show-in-sidebar": "Kenar çubuğunda göster",
+	"check-all-/-uncheck-all" : "Tümünü seç / Tümünü temizle",
+	"all": "Tümü",
+	"email" : "E-posta",
+	"facebook" : "Facebook",
+	"instagram": "Instagram",
+	"your-instagram-profil-url-(leave-blank-to-disable)" : "Instagram profil URL’niz (devre dışı bırakmak için boş bırakın)",
+	"tumblr" : "Tumblr",
+	"linkedin" : "Linkedin",
+	"twitter" : "Twitter",
+	"reddit" : "Reddit",
+	"google+" : "Google+",
+	"youtube" : "Youtube",
+	"your-youtube-channel-(leave-blank-to-disable)" : "YouTube kanalınız (devre dışı bırakmak için boş bırakın)",
+	"pinterest" : "Pinterest",
+	"github" : "Github",
+	"github-url" : "Deponuzun Github URL'si",
+	"share-this-page:" : "Bu sayfayı paylaş:"
+}
