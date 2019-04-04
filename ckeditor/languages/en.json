@@ -1,0 +1,13 @@
+{
+	"plugin-data":
+	{
+		"name": "CKEditor with RESPONSIVE Filemanager",
+		"description": "Add Ckeditor 4.11.3 + RESPONSIVE filemanager v.9.14.0 to Bludit"
+	},
+    "select-toolbar": "Select package of CKEditor and toolbar",
+    "basic": "Basic",
+    "standard": "Standard",
+    "full": "Full",
+    "filemanager-access-key": "Filemanager Access Key",
+    "generate-key-(refresh-for-new):": "Generate key (refresh for new):"
+}

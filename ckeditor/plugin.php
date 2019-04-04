@@ -8,18 +8,19 @@
  *  @copyright 2015-2018 Frédéric K.
  *	@version 4.8.0
  *  @release 2015-07-14
- *  @update 2018-03-10
+ *  @update 2018-03-20
  *
  */	
 class pluginCKeditor extends Plugin {
 	
+	private $loadOnController = array(
+		'new-content',
+		'edit-content'
+	);
+
 	public function init()
 	{	
 		$this->dbFields = array(
-/*
-			'toolbar' => 'basic',
-			'skin' => 'bludit',
-*/
 			'akey' => pluginCKeditor::randomString()
 			);
 	}
@@ -30,82 +31,76 @@ class pluginCKeditor extends Plugin {
      */	
 	public function adminHead()
 	{
-		global $Site;
-		global $layout;
-		$pluginPath = $this->htmlPath(). 'libs' .DS. 'ckeditor'. DS;
-		
-		$html = '';
-
-			$language = substr($Site->language(), 0, 2);
-			$_SESSION["editor_lang"] = $Site->language();
-			$html .= '<script src="'.$pluginPath. 'ckeditor.js"></script>'.PHP_EOL;
-			$html .= '<script src="'.$pluginPath. 'lang' .DS. $language.'.js"></script>'.PHP_EOL;		 
-
-		return $html;
+		// Load the plugin only in the controllers setted in $this->loadOnController
+		if (!in_array($GLOBALS['ADMIN_CONTROLLER'], $this->loadOnController)) {
+			return false;
+		}
+		$pluginPath = $this->htmlPath(). 'libs' .DS. 'ckeditor'. DS;			
+		return '<script src="' .$pluginPath. 'ckeditor.js"></script>';
 	}
 	
 	public function adminBodyEnd()
 	{
-		global $Security, $Site, $layout;
-		
+		global $L;
+
+		// Load the plugin only in the controllers setted in $this->loadOnController
+		if (!in_array($GLOBALS['ADMIN_CONTROLLER'], $this->loadOnController)) {
+			return false;
+		}
+		$langPath = $this->phpPath(). 'libs' . DS . 'ckeditor' . DS . 'lang' . DS;
+		if (file_exists($langPath . $L->currentLanguage().'.js')) {
+			$lang = $L->currentLanguage();
+		} elseif (file_exists($langPath . $L->currentLanguageShortVersion().'.js')) {
+			$lang = $L->currentLanguageShortVersion();
+		}
+
 		$pluginPath = $this->htmlPath(). 'libs' .DS. 'filemanager' .DS;
 		$html = '';
-
-			$language = substr($Site->language(), 0, 2);
-			$html .= '		
+		$html .= '		
 				<script>	
-		CKEDITOR.replace( "jscontent", {
-			language: \''.$language.'\',
-			fullPage: false,
+		CKEDITOR.replace( "jseditor", {
+			language: "' .$lang. '",
+			fullPage: false,				
 			allowedContent: false,
-			filebrowserBrowseUrl : \''.$pluginPath.'dialog.php?type=2&editor=ckeditor&akey='.$this->getDbField('akey').'&fldr=\',
-			filebrowserImageBrowseUrl : \''.$pluginPath.'dialog.php?type=1&editor=ckeditor&akey='.$this->getDbField('akey').'&fldr=\',
-			filebrowserUploadUrl : \''.$pluginPath.'dialog.php?type=2&editor=ckeditor&akey='.$this->getDbField('akey').'&fldr=\'
+			filebrowserBrowseUrl : "'.$pluginPath.'dialog.php?type=2&editor=ckeditor&akey='.$this->getValue('akey').'&fldr=",
+			filebrowserImageBrowseUrl : "'.$pluginPath.'dialog.php?type=1&editor=ckeditor&akey='.$this->getValue('akey').'&fldr=",
+			filebrowserUploadUrl : "'.$pluginPath.'dialog.php?type=2&editor=ckeditor&akey='.$this->getValue('akey').'&fldr="
 		});
-
+				
+		config.extraPlugins= "bluditbreak";
+		config.bluditbreak = [
+			{
+				name:"Bludit pagebreak",
+				icon:"'.$this->htmlPath(). 'pagebreak.gif",
+				html:"\n'.PAGE_BREAK.'\n",
+				title:"Insert Pagebreak"
+			}
+		];		
 		</script>'.PHP_EOL;
+		
 		return $html;
+
 	}
 
 	public function form()
 	{
-		global $Language;			
+		global $L;			
 		
-		$html = '';	
-/*
-		$html .= '<div class="uk-form-select" data-uk-form-select>
-    <span></span>';	
-		$html .= '<label for="toolbar">'.$Language->get('Select toolbar').'</label>';
-        $html .= '<select name="toolbar">';
-        $toolbarOptions = array('basic' => $Language->get('Basic'),'standard' => $Language->get('Standard'),'advanced' => $Language->get('Advanced'));
-        foreach($toolbarOptions as $text=>$value)
-            $html .= '<option value="'.$text.'"'.( ($this->getDbField('toolbar')===$text)?' selected="selected"':'').'>'.$value.'</option>';
-        $html .= '</select>';
-        $html .= '<div class="uk-form-help-block">'.$Language->get('Advanced is the full package of CKEditor').'</div>';
-		$html .= '</div>';	
-*/	
+		$html  = '<div>';
+		$html .= '<label>'.$L->get('Filemanager Access Key').'</label>';
+		$html .= '<input name="akey" id="jsakey" type="text" value="'.$this->getValue('akey').'">';
+		$html .= '<span class="tip">'.$L->get('Generate key (refresh for new):'). ' <b>'.pluginCKeditor::randomString().'</b></span>';
+		$html .= '</div>';
 
-		$html .= '<div>';
-		$html .= '<label for="jsakey">'.$Language->get('Filemanager Access Key').'</label>';
-	    $html .= '<div class="uk-form-icon">';
-		$html .= '<i class="uk-icon-key"></i>';
-		$html .= '<input class="uk-form-width-large" name="akey" id="jsakey" type="text" value="'.$this->getDbField('akey').'">';
-		$html .= '</div>';
-		$html .= '<div class="uk-form-help-block">'.$Language->get('Generate key (refresh for new):'). ' <b>'.pluginCKeditor::randomString().'</b></div>';
-		$html .= '</div>';
-		
-/*
-		$html .= '<div class="uk-form-select" data-uk-form-select>
-    <span></span>';	
-		$html .= '<label for="skin">'.$Language->get('Select skin').'</label>';
-        $html .= '<select name="skin">';
-        $skinOptions = array('kama'=>'Kama','flat'=>'Flat','moono'=>'Moono','minimalist'=>'Minimalist','icy_orange'=>'Icy Orange','moono-dark'=>'Moono Dark','bludit'=>'Bludit');
-        foreach($skinOptions as $text=>$value)
-            $html .= '<option value="'.$text.'"'.( ($this->getDbField('skin')===$text)?' selected="selected"':'').'>'.$value.'</option>';
-        $html .= '</select>';
-		$html .= '</div>';
-*/	
-				
+		#$html .= '<div>';
+		#$html .= '<label>'.$L->get('select-toolbar').'</label>';
+		#$html .= '<select name="toolbar">';
+		#$html .= '<option value="basic" '.($this->getValue('toolbar')==='basic'?'selected':'').'>'.$L->get('Basic').'</option>';
+		#$html .= '<option value="standard" '.($this->getValue('toolbar')==='standard'?'selected':'').'>'.$L->get('Standard').'</option>';
+		#$html .= '<option value="full" '.($this->getValue('toolbar')==='full'?'selected':'').'>'.$L->get('Full').'</option>';
+		#$html .= '</select>';
+		#$html .= '</div>';
+	
 		return $html;
 	}
 
